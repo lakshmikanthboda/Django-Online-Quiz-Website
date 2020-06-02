@@ -1,0 +1,91 @@
+{% load static %}
+
+<html>
+<head>
+<link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet" id="bootstrap-css">
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
+<!------ Include the above in your HEAD tag ---------->
+</head>
+
+<body oncontextmenu="return false;">
+<nav class="navbar navbar-dark bg-dark">
+    <a class="navbar-brand" href="#"></a>
+    {% if user.is_authenticated %}
+    <button type="disable" class="btn btn-lg btn-primary" disabled>Hello, {{user.username}}</button>
+
+<form method="post" action="logout">{% csrf_token %}
+    <p class="btn btn-warning" id="time">0 Seconds</p>
+    <button type="submit"></button>
+</form>
+
+
+
+
+  <!-- Navbar content -->
+</nav>
+<form method="post" action="/answer" name="quiz">{% csrf_token %}
+    <input type="hidden" name="nq" value="1">
+    <input type="hidden" name="qid" value={{id}}>
+    <input type="hidden" name="uid" value={{user.id}}>
+{% for i in questions%}
+<div class="container-fluid bg-info">
+    <div class="modal-dialog">
+      <div class="modal-content">
+         <div class="modal-header">
+            <h3><span class="label label-warning" id="qid">{{ forloop.counter }}</span> {{i.title}}</h3>
+        </div>
+        <div class="modal-body">
+            <div class="col-xs-3 col-xs-offset-5">
+               <div id="loadbar" style="display: none;">
+                  <div class="blockG" id="rotateG_01"></div>
+                  <div class="blockG" id="rotateG_02"></div>
+                  <div class="blockG" id="rotateG_03"></div>
+                  <div class="blockG" id="rotateG_04"></div>
+                  <div class="blockG" id="rotateG_05"></div>
+                  <div class="blockG" id="rotateG_06"></div>
+                  <div class="blockG" id="rotateG_07"></div>
+                  <div class="blockG" id="rotateG_08"></div>
+              </div>
+          </div>
+
+          <div class="quiz" id="quiz" data-toggle="buttons">
+           <label class="element-animation1 btn btn-lg btn-primary btn-block"><span class="btn-label"><i class="glyphicon glyphicon-chevron-right"></i></span> <input type="radio" name={{ forloop.counter }} value={{i.option1}}>{{i.option1}}</label>
+           <label class="element-animation2 btn btn-lg btn-primary btn-block"><span class="btn-label"><i class="glyphicon glyphicon-chevron-right"></i></span> <input type="radio" name={{ forloop.counter }} value={{i.option2}}>{{i.option2}}</label>
+           <label class="element-animation3 btn btn-lg btn-primary btn-block"><span class="btn-label"><i class="glyphicon glyphicon-chevron-right"></i></span> <input type="radio" name={{ forloop.counter }} value={{i.option3}}>{{i.option3}}</label>
+           <label class="element-animation4 btn btn-lg btn-primary btn-block"><span class="btn-label"><i class="glyphicon glyphicon-chevron-right"></i></span> <input type="radio" name={{ forloop.counter }} value={{i.option4}}>{{i.option4}}</label>
+       </div>
+   </div>
+
+
+</div>
+</div>
+</div>
+</div>
+{% endfor %}
+<center>
+    <button type="submit" class="btn btn-success">Submit</button>
+</center>
+    </form>
+
+<script type="text/javascript">
+    var total_seconds = 60*{{time}};
+    var c_minutes = parseInt(total_seconds/60);
+    var c_seconds = parseInt(total_seconds%60);
+    function checktime(){
+    document.getElementById('time').innerHTML='Time Left: '+ c_minutes +':'+c_seconds;
+    if(total_seconds<=0) {
+    setTimeout('document.quiz.submit()',1);
+    }else{
+    total_seconds=total_seconds-1;
+    c_minutes= parseInt(total_seconds/60);
+    c_seconds = parseInt(total_seconds%60);
+    setTimeout('checktime()',1000);
+    }}
+setTimeout('checktime()',1000);
+</script>
+{% else %}
+<p>test</p>
+       {% endif %}
+</body>
+</html>

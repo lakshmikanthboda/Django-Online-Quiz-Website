@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    {% if user.is_authenticated %}
+    <button class="btn btn-lg btn-primary" disabled>Hello, {{user.username}}</button>
+    {% endif %}
+</body>
+</html>

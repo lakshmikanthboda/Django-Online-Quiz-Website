@@ -1,0 +1,23 @@
+{% load static %}
+<html lang="en">
+<head>
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet" id="bootstrap-css">
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+{% if user.is_authenticated %}
+<center>
+You are not part of the test Pay to Join
+<form method='POST' action='/pay/'> {% csrf_token %}
+    <input type="hidden" name='uid' value="{{uid}}">
+    <input type="hidden" name='qid' value="{{id}}">
+    <input type="hidden" name="amount" value={{amount}}>
+    <button type='submit' class="btn btn-success">Pay</button> </form>
+</center>
+{% endif %}
+
+</body>
+</html>
